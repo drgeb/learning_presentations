@@ -1,0 +1,42 @@
+
+
+
+* Mixing CQRS & ES terms
+
+You will start with Domain (State)
+#BEGIN java
+type Task = {
+   Id: int
+   Name: String
+   DueDate: Datetime option
+   IsComplete: bool
+}
+
+type State= {
+Tasks: Task list
+}
+#END
+
+State used as initial before applying events on it
+
+#BEGIN
+type State = {
+   Tasks: Task list
+}
+   with
+       static member Init = {
+           Tasks = []
+}
+#END
+
+the you will need Commands
+
+#BEGIN
+type Command = 
+    | AddTask of CmdArgs.AddTask
+    | RemoveTask of CmdArgs.RemoveTask
+    | ClearAllTasks
+    | CompleteTask of CmdArgs.CompleteTask
+    | ChangeTaskDueDate of CmdArgs.ChangeTaskDueDate
+#END
+
